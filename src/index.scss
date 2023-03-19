@@ -1,0 +1,74 @@
+// @use 'core';
+@use 'core';
+// @use 'layouts';
+@use 'bp';
+@use 'sass:list';
+@use "sass:map";
+
+$_default_options: (
+    reboot: true,
+    common: true,
+    theme: true,
+    utilities: true,
+    color-utilities: true,
+    merge-theme-with-prebuilt: false,
+    fg-var-name: 'text/secondary'
+    // layouts: (
+    //     grid: false,
+    //     container: false,
+    // )
+);
+
+@mixin init($breakpoints: (), $theme: (), $options: ()) {
+    $options: map.deep-merge($_default_options, $options);
+
+    // setting default theme
+    @include log-init($options);
+
+    @if map.get($options, 'theme') {
+        @if (not ($theme == null)) and (list.length($theme) > 0) {
+            @include core.create-theme(
+                $theme,
+                $as-default: true,
+                $merge-with-prebuilt: map.get($options, 'merge-theme-with-prebuilt'),
+                $fg-var-name: map.get($options, 'fg-var-name'),
+                $bg-var-name: map.get($options, 'bg-var-name'),
+            );
+        } @else {
+            @include core.create-theme(
+                $as-default: true,
+                $fg-var-name: map.get($options, 'foreground-var-name'),
+                $bg-var-name: map.get($options, 'background-var-name'),
+            ); 
+        }
+    }
+
+    // setting breakpoints (scss variableS)
+    @include bp.set-breakpoints($breakpoints);
+
+    // init core (reboot, common, utilities, color-utilities)
+    @include core.create-default-styles(
+        map.get($options, 'reboot'),
+        map.get($options, 'common'),
+        map.get($options, 'utilities'),
+        map.get($options, 'color-utilities'),
+    );
+
+    // // setting layout
+    // @include layouts.init(
+    //     map.get($options, 'layouts', 'grid'),
+    //     map.get($options, 'layouts', 'container')
+    // );
+}
+
+@mixin log-init($options) {
+    @debug "";
+    @debug "┬  ┬ ┬┬   ┌┬┐┬┌─┐┬─┐┌─┐";
+    @debug "│  │ ││───│││││  ├┬┘│ │";
+    @debug "┴─┘└─┘┴   ┴ ┴┴└─┘┴└─└─┘";
+    @debug "";
+    @debug "⚙️  Initializing lui-micro with settings:";
+    @debug "";
+    @debug $options;
+    @debug "";
+}

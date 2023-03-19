@@ -1,0 +1,65 @@
+@mixin create($typographies: (), $colors: ()) {
+    html,
+    body {
+        // base typography
+        @include typo.typography('base');
+
+        background-color: color.get('background');
+        min-height: 100%;
+        color: color.get('text');
+    }
+    
+    html {
+        
+        body {
+            blockquote {
+                padding-left: 1rem;
+                margin-bottom: 1rem;
+            }
+    
+            pre {
+                // estas variables no están definidas
+                // pero las dejo para que se puedan definir
+                // por afuera
+                background-color: var(--pre-bg);
+                color: var(--pre-color);
+                padding: var(--pre-padding, .5rem);
+                line-height: var(--pre-height, 1.25);
+                overflow-x: var(--pre-overflow-x, scroll);
+            }
+            
+            a,
+            a:visited {
+                &:not([role='button']) {
+                    color: color.get(primary);
+                }                
+            }
+            
+            a:hover,
+            a:focus,
+            a:active {
+                color: color.get(secondary);
+            }
+            
+            img,
+            canvas,
+            iframe,
+            video,
+            svg,
+            select,
+            textarea {
+                max-width: 100%;
+            }
+    
+            small { @include typo.typography('base/small'); }
+            p { margin-bottom: 1rem; }
+            
+            h1 { @include typo.typography('h1'); }
+            h2 { @include typo.typography('h2'); }
+            h3 { @include typo.typography('h3'); }
+            h4 { @include typo.typography('h4'); }
+            h5 { @include typo.typography('h5'); }
+            h6 { @include typo.typography('h6'); }
+        }
+    }
+}

@@ -1,0 +1,51 @@
+name: Publish release
+
+on:
+  release:
+    types: [created]
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      packages: write
+      contents: read
+    steps:
+      - name: Checkout the repo
+        uses: actions/checkout@v3
+        with:
+          ref: 'master'
+
+      - name: Setup NodeJS
+        uses: actions/setup-node@v3.5.1
+        with:
+          node-version: 16.14.0
+          registry-url: https://npm.pkg.github.com/
+
+      - name: Cache pnpm modules
+        uses: actions/cache@v3.0.11
+        with:
+          path: ~/.pnpm-store
+          key: ${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2.2.4
+        with:
+          version: 7.13.0
+
+      - run: pnpm install
+
+      - run: pnpm dist 
+
+      # escanea todos los directorios de ./dist en busqueda
+      # de archivos package.json para publicar
+      - name: Publish to Github NPM Registry
+        uses: author/action-publish@stable
+        with:
+          scan: './dist'
+        env:
+          REGISTRY_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

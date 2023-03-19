@@ -1,0 +1,34 @@
+{
+    "name": "@lucas-labs/lui-micro",
+    "version": "3.1.1",
+    "description": "LUI micro scss",
+    "scripts": {
+        "dist": "pnpm gulp dist",
+        "start": "pnpm gulp",
+        "serve": "pnpm gulp",
+        "release:major": "pnpm gulp release:major",
+        "release:minor": "pnpm gulp release:minor",
+        "release:patch": "pnpm gulp release:patch",
+        "release:premajor": "pnpm gulp release:premajor",
+        "release:preminor": "pnpm gulp release:preminor",
+        "release:prepatch": "pnpm gulp release:prepatch",
+        "release:prerelease": "pnpm gulp release:prerelease"
+    },
+    "author": "",
+    "license": "MIT",
+    "devDependencies": {
+        "browser-sync": "^2.27.9",
+        "cssnano": "^5.1.7",
+        "del": "^6.0.0",
+        "gulp": "^4.0.2",
+        "gulp-postcss": "^9.0.1",
+        "gulp-run": "^1.7.1",
+        "gulp-rename": "^2.0.0",
+        "gulp-sass": "^5.1.0",
+        "nodemon": "^2.0.15",
+        "npm-run-all": "^4.1.5",
+        "postcss": "^8.4.12",
+        "sass": "^1.49.11",
+        "ts-node": "^10.7.0"
+    }
+}

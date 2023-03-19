@@ -1,0 +1,73 @@
+@use 'sass:map';
+@use 'sass:meta';
+@use 'sass:list';
+@use 'sass:string';
+@use '../utils';
+@use 'css-vars';
+@use 'validator';
+@use 'theme/prebuilt';
+@use 'reboot';
+
+$_default_theme: prebuilt.$theme; 
+$text-color: null !default;
+$text-contrast: null !default;
+
+@mixin create-theme(
+    $theme: $_default_theme, 
+    $as-default: false, 
+    $merge-with-prebuilt: true, 
+    $fg-var-name: null, 
+    $bg-var-name: null
+) {
+    @if $merge-with-prebuilt {
+        $theme: map.deep-merge($_default_theme, $theme);
+    }
+
+    @include validator.validate($theme);
+
+    $colors: map.get($theme, "colors");
+    $variables: map.get($theme, "variables");
+    $typographies: map.get($theme, "typographies");
+    $color-options: (
+        "fg-var-name": $fg-var-name,
+        "bg-var-name": $bg-var-name,
+    );
+
+    // if $as-default is true, then the theme is set as default, over the :root element
+    // otherwise, the theme is set as an attribute of the html element
+    @if $as-default {
+        :root {
+            @include css-vars.create-css-variables($colors, $variables, $typographies, $color-options);
+
+            // ya no uso mas el prebuilt, uso el theme default :)
+            $_default_theme: $theme !global;
+        }
+    } @else {
+        html[theme="#{map.get($theme, name)}"] {
+            @include css-vars.create-css-variables($colors, $variables, $typographies, $options);
+        }
+    }
+}
+
+@mixin create-default-styles($reboot, $common, $utilities, $color-utilities) {
+    // reboot default styles
+    @if $reboot {
+        @include reboot.create-reboot-styles;
+    }
+
+    // common styles
+    @if $common {
+        // @include common.create;
+    }
+    
+    // utility classes
+    @if $utilities {
+        // @include utilities.create($utilities);    
+    }
+
+    // color utility classes
+    @if $color-utilities {
+        // @include color-utilities.create();
+    }
+}
+

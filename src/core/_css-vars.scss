@@ -1,0 +1,94 @@
+@use '../utils';
+@use 'sass:string';
+@use 'sass:map';
+@use 'sass:meta';
+@use 'sass:list';
+
+// creates all css variables for a theme (colors, vars, and typographies)
+@mixin create-css-variables($colors, $variables, $typographies, $options) {
+    @include -vars($variables);
+    @include -typographies($typographies);
+
+    $base-colors: utils.get-bg-and-fg-colors($colors, $options);
+    @include -colors($colors: $colors, $base-colors: $base-colors);
+}
+
+// Creates css variables for variables
+@mixin -vars($variables, $base: '') {
+    $separator: if($base == '', '', '_');
+    @each $var, $value in $variables {
+        @if type-of($value) == 'map' {
+            @include -vars($value, '#{$base}#{$separator}#{$var}');
+        } @else {
+            --v-#{$base}#{$separator}#{utils.escape-var-name($var)}: #{string.unquote(
+                    $value + ''
+                )};
+        }
+    }
+}
+
+// Creates css variables for typographies
+@mixin -typographies($typographies, $base: '', $include: true) {
+    $separator: if($base == '', '', '_');
+    
+    // process typography inheritance
+    $typos-with-inheritance: utils.inherit-properties($typographies, null);
+
+    // creates css variables for each typography in $typos-with-inheritance
+    @each $typo, $value in $typos-with-inheritance {
+        @if type-of($value) == 'map' {
+            // get __include-root__ property
+            $include-root: map.get($value, '__include-root__');
+            $include: if($include-root != null, $include-root, true);
+
+            // if its a map (child typography), go recursively
+            @include -typographies($value, '#{$base}#{$separator}#{$typo}', $include);
+        } @else {
+            @if $include {
+                // skip __include-root__ property
+                @if $typo != '__include-root__' {
+                    // if its a property, create a css variable
+                    --t-#{$base}#{$separator}#{$typo}: #{string.unquote($value + '')};      
+                }   
+            }
+        }
+    }
+}
+
+// Creates css variables for colors
+@mixin -colors($colors, $complete-color-list: utils.empty-map(), $base: "", $base-colors: utils.empty-map()) {
+    @if list.length($complete-color-list) == 0 {
+        $complete-color-list: $colors;
+    }
+    
+    $text-color: map.get($base-colors, 'foreground');
+    $text-contrast: map.get($base-colors, 'background');
+    $make-contrast-vars: $text-color != null and 
+                         $text-contrast != null and 
+                        type-of($text-color) == 'color' and 
+                        type-of($text-contrast) == 'color';
+
+    @debug $text-color $text-contrast $make-contrast-vars;
+
+    @each $color, $value in $colors {
+        @if meta.type-of($value) == "map" {
+            // if its a map, go recursively
+            $separator: if($base == "", "", "_");
+            @include -colors($colors: $value, $complete-color-list: $complete-color-list, $base: "#{$base}#{$separator}#{$color}", $base-colors: $base-colors);
+        } @else {
+            $separator: if($base == "", "", "_");
+            --c-#{$base}#{$separator}#{utils.escape-var-name($color)}: #{$value};
+
+            @if meta.type-of($value) == "color" {
+                @if not map.get($colors, #{$color}-rgb) and not utils.ends-with($color, "-rgb") {
+                    --c-#{$base}#{$separator}#{utils.escape-var-name($color)}-rgb: #{utils.hex-to-rgb($value)};
+                }
+
+                @if not map.get($colors, #{$color}-c) and not utils.ends-with($color, "-c") and $make-contrast-vars {
+                    --c-#{$base}#{$separator}#{utils.escape-var-name($color)}-c: #{utils.contrast-color($value, $text-color, $text-contrast)};
+                    --c-#{$base}#{$separator}#{utils.escape-var-name($color)}-c-rgb: #{utils.hex-to-rgb(utils.contrast-color($value, $text-color, $text-contrast))};
+                }
+            }
+        }
+    }
+}
