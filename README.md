@@ -1,8 +1,8 @@
-<p align="center"><img src="./logo.svg" height="80"></p>
+<p align="center"><img src="https://raw.githubusercontent.com/lucas-labs/lui-micro/HEAD/logo.svg" height="80"></p>
 
 <p align="center">
 <strong>
-🔎 <code>lucas-labs/lui-micro</code> SCSS library.
+🎨 <code>lucas-labs/lui-micro</code> > A lightweight scss library for building themed UIs 🤏.
 </strong>
 </p>
 
