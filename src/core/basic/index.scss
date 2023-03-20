@@ -1,21 +1,25 @@
 @use '../../utils';
 @use 'sass:list';
-// @use "./../../var";
-// @use "./../../typo";
+@use 'sass:map';
 
 @function -valid-typography($typography) {
     @return $typography != null and list.length($typography) > 0;
 }
 
-@mixin -make-typo($selector, $props) {
+@mixin -make-typo($selector: null, $props: (), $name: null) {
     @if -valid-typography($props) {
-        #{$selector} {
-            @include utils.map-to-css-properties($props);
+        @if $selector != null {
+            #{$selector} {
+                @include utils.make-typo-vars($props, $name)
+            }
+        } @else {
+            @include utils.make-typo-vars($props, $name);
         }
+
     }
 }
 
-@mixin create-basic-styles($typographies) {
+@mixin create-basic-styles($typographies: (), $colors: (), $options: ()) {
     $h1: utils.filter-props(utils.get-nested($typographies, "heading/h1"));
     $h2: utils.filter-props(utils.get-nested($typographies, "heading/h2"));
     $h3: utils.filter-props(utils.get-nested($typographies, "heading/h3"));
@@ -24,74 +28,64 @@
     $h6: utils.filter-props(utils.get-nested($typographies, "heading/h6"));
     $text: utils.filter-props(utils.get-nested($typographies, "text"));
 
-    // @if -valid-typography($h1) {
-    //     h1 {
-    //         @include utils.map-to-css-properties($h1);
-    //     }
-    // }
-    
+    $text-small-name: 'text/small';
+    $text-small: utils.filter-props(utils.get-nested($typographies, "text/small"));
 
-    // html,
-    // body {
-    //     // base typography
-    //     @include -make-typo("body", $text);
+    @if($text-small == null) {
+        $text-small: utils.filter-props(utils.get-nested($typographies, "text/sm"));
+        $text-small-name: 'text/sm';
+    }
 
-    //     background-color: color.get('background');
-    //     min-height: 100%;
-    //     // color: color.get('text');
-    // }
+    $base-colors: utils.get-bg-and-fg-colors($colors, $options);
+
+    $text-color: map.get($base-colors, 'foreground');
+    $bg-color: map.get($base-colors, 'background');
+    $text-color: if($text-color == null or $text-color == (), null, $text-color);
+    $bg-color: if($bg-color == null or $bg-color == (), null, $bg-color);
+
+    /* basic styles */
+    html,
+    body {
+        // base typography
+        @include -make-typo($props: $text, $name: 'text');
+        min-height: 100%;
+
+        @if $text-color != null {
+            color: $text-color;
+        }
+
+        @if $bg-color != null {
+            background-color: $bg-color;
+        }
+    }
     
-    // html {
-        
-    //     body {
-    //         blockquote {
-    //             padding-left: 1rem;
-    //             margin-bottom: 1rem;
-    //         }
+    html {
+        body {
+            blockquote {
+                padding-left: 1rem;
+                margin-bottom: 1rem;
+            }
+            
+            img,
+            canvas,
+            iframe,
+            video,
+            svg,
+            select,
+            textarea {
+                max-width: 100%;
+            }
     
-    //         pre {
-    //             // estas variables no están definidas
-    //             // pero las dejo para que se puedan definir
-    //             // por afuera
-    //             background-color: var(--pre-bg);
-    //             color: var(--pre-color);
-    //             padding: var(--pre-padding, .5rem);
-    //             line-height: var(--pre-height, 1.25);
-    //             overflow-x: var(--pre-overflow-x, scroll);
-    //         }
+            small { @include -make-typo($props: $text-small, $name: $text-small-name); }
+
+            p { margin-bottom: 1rem; }
             
-    //         a,
-    //         a:visited {
-    //             &:not([role='button']) {
-    //                 color: color.get(primary);
-    //             }                
-    //         }
-            
-    //         a:hover,
-    //         a:focus,
-    //         a:active {
-    //             color: color.get(secondary);
-    //         }
-            
-    //         img,
-    //         canvas,
-    //         iframe,
-    //         video,
-    //         svg,
-    //         select,
-    //         textarea {
-    //             max-width: 100%;
-    //         }
-    
-    //         small { @include typo.typography('base/small'); }
-    //         p { margin-bottom: 1rem; }
-            
-    //         h1 { @include typo.typography('h1'); }
-    //         h2 { @include typo.typography('h2'); }
-    //         h3 { @include typo.typography('h3'); }
-    //         h4 { @include typo.typography('h4'); }
-    //         h5 { @include typo.typography('h5'); }
-    //         h6 { @include typo.typography('h6'); }
-    //     }
-    // }
+            h1 { @include -make-typo($props: $h1, $name: 'heading/h1'); }
+            h2 { @include -make-typo($props: $h2, $name: 'heading/h2'); }
+            h3 { @include -make-typo($props: $h3, $name: 'heading/h3'); }
+            h4 { @include -make-typo($props: $h4, $name: 'heading/h4'); }
+            h5 { @include -make-typo($props: $h5, $name: 'heading/h5'); }
+            h6 { @include -make-typo($props: $h6, $name: 'heading/h6'); }
+        }
+    }
 }

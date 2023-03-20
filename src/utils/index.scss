@@ -267,7 +267,7 @@ $srgb-lut: 0, 0.0003035269835488375, 0.000607053967097675, 0.0009105809506465125
 }
 
 // get background and foreground colors from a map depending on the options
-@function get-bg-and-fg-colors($colors: utils.empty-map(), $options: utils.empty-map()) {
+@function get-bg-and-fg-colors($colors: empty-map(), $options: empty-map()) {
     $foreground-var-name: map.get($options, 'fg-var-name') or 'text';
     $background-var-name: map.get($options, 'bg-var-name') or 'background';
     
@@ -338,14 +338,19 @@ $srgb-lut: 0, 0.0003035269835488375, 0.000607053967097675, 0.0009105809506465125
     }
 }
 
-@mixin map-to-css-properties($properties) {
+@mixin make-typo-vars($properties, $name) {
     @if type-of($properties) == map and list.length($properties) > 0 {
-        @each $property, $value in $properties {
-            // ignore properties that starts with __
-            @if not starts-with($property, '__') {
-                #{$property}: $value;
+        $include-root: map.get($properties, '__include-root__');
+        $include: if($include-root == null, true, $include-root);
+
+        @if $include {
+            @each $prop, $value in $properties {
+                $css-var-name: '--t-' + replace($name, '/', '_') + '_' + $prop;
+                #{normalize-typo-prop-name($prop)}: var(#{$css-var-name});
             }
-        }    
+        } @else {
+            @warn "You are trying to generate properties for typology '#{$name}' but it's a root and it has '__include-root__' setted to false. As a result, no css properties will be generated";
+        }         
     }    
 }
 

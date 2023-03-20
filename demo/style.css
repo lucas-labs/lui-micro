@@ -41,6 +41,11 @@
   --t-text_xl_bold_weight: 600;
   --t-text_xl_bold_line-height: 1.875rem;
   --t-text_xl_bold_letter-spacing: 0rem;
+  --t-text_sm_family: Inter;
+  --t-text_sm_size: 0.875rem;
+  --t-text_sm_weight: 400;
+  --t-text_sm_line-height: 1.5rem;
+  --t-text_sm_letter-spacing: 0.031rem;
   --c-background: white;
   --c-background-rgb: 255, 255, 255;
   --c-background-c: blue;
@@ -149,6 +154,56 @@ meter {
   all: revert;
 }
 
+/* basic styles */
+html,
+body {
+  font-family: var(--t-text_family);
+  font-size: var(--t-text_size);
+  font-weight: var(--t-text_weight);
+  line-height: var(--t-text_line-height);
+  letter-spacing: var(--t-text_letter-spacing);
+  min-height: 100%;
+  color: blue;
+  background-color: white;
+}
+
+html body blockquote {
+  padding-left: 1rem;
+  margin-bottom: 1rem;
+}
+html body img,
+html body canvas,
+html body iframe,
+html body video,
+html body svg,
+html body select,
+html body textarea {
+  max-width: 100%;
+}
+html body small {
+  font-family: var(--t-text_sm_family);
+  font-size: var(--t-text_sm_size);
+  font-weight: var(--t-text_sm_weight);
+  line-height: var(--t-text_sm_line-height);
+  letter-spacing: var(--t-text_sm_letter-spacing);
+}
+html body p {
+  margin-bottom: 1rem;
+}
+html body h1 {
+  font-family: var(--t-heading_h1_family);
+  font-weight: var(--t-heading_h1_weight);
+  font-size: var(--t-heading_h1_size);
+  line-height: var(--t-heading_h1_line-height);
+  letter-spacing: var(--t-heading_h1_letter-spacing);
+}
+html body h2 {
+  font-family: var(--t-heading_h2_family);
+  font-weight: var(--t-heading_h2_weight);
+  font-size: var(--t-heading_h2_size);
+  line-height: var(--t-heading_h2_line-height);
+  letter-spacing: var(--t-heading_h2_letter-spacing);
+}
 .bg-background {
   background-color: var(--c-background);
   color: var(--c-background-c);
@@ -303,6 +358,14 @@ meter {
   font-weight: var(--t-text_xl_weight);
   line-height: var(--t-text_xl_line-height);
   letter-spacing: var(--t-text_xl_letter-spacing);
+}
+
+.typo-text-sm {
+  font-family: var(--t-text_sm_family);
+  font-size: var(--t-text_sm_size);
+  font-weight: var(--t-text_sm_weight);
+  line-height: var(--t-text_sm_line-height);
+  letter-spacing: var(--t-text_sm_letter-spacing);
 }
 
 .typo-text {

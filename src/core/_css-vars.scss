@@ -65,8 +65,6 @@
                         type-of($text-color) == 'color' and 
                         type-of($text-contrast) == 'color';
 
-    @debug $text-color $text-contrast $make-contrast-vars;
-
     @each $color, $value in $colors {
         @if meta.type-of($value) == "map" {
             // if its a map, go recursively

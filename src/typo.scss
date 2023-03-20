@@ -54,17 +54,7 @@ $typographies: ();
         // if we found the typology, then we can 
         // use its props to create its css definitions
         @if $real-typo-props != null and meta.type-of($real-typo-props) == 'map' {
-            $include-root: map.get($real-typo-props, '__include-root__');
-            $include: if($include-root == null, true, $include-root);
-
-            @if $include {
-                @each $prop, $value in $real-typo-props {
-                    $css-var-name: '--t-' + utils.replace($name, '/', '_') + '_' + $prop;
-                    #{utils.normalize-typo-prop-name($prop)}: var(#{$css-var-name});
-                }
-            } @else {
-                @warn "You are trying to generate properties for typology '#{$name}' but it's a root and it has '__include-root__' setted to false. As a result, no css properties will be generated";
-            }
+            @include utils.make-typo-vars($real-typo-props, $name);
         } 
         // in frameworks that uses shadow dom, like components in angular, 
         // if typographies wasn't provided when importing typo.scss at the component level,

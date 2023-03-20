@@ -11,6 +11,7 @@
 
 $_default_theme: prebuilt.$theme;
 $_colors-list: ();
+$colors: ();
 $color-options: ();
 $typos-with-inheritance: ();
 
@@ -33,7 +34,7 @@ $typos-with-inheritance: ();
         $theme: map.deep-merge($_default_theme, $theme);
     }
 
-    $colors: map.get($theme, "colors");
+    $colors: map.get($theme, "colors") !global;
     $variables: map.get($theme, "variables");
     $typographies: map.get($theme, "typographies");
     $color-options: (
@@ -69,7 +70,7 @@ $typos-with-inheritance: ();
 
     // common styles
     @if $basic {
-        @include basic.create-basic-styles(get-typographies());
+        @include basic.create-basic-styles(get-typographies(), $colors, $color-options);
     }
     
     // color utility classes
