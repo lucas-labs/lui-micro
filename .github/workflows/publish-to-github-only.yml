@@ -1,0 +1,50 @@
+name: 🚀 Publish to Github Registry
+
+on:
+  workflow_dispatch:
+
+jobs:
+  publish:
+    name: 🚀 publish
+    runs-on: ubuntu-latest
+    
+    permissions:
+      packages: write
+      contents: read
+    
+    steps:
+      # Check out the repository
+      - name: 📁 Checkout Repository
+        uses: actions/checkout@v3
+        with:
+          ref: 'master'
+
+      # Setup Node.js
+      - name: 🟢 Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16.14.0
+          registry-url: https://npm.pkg.github.com
+
+      # Install Pnpm
+      - name: ⬇️ Install Pnpm
+        uses: pnpm/action-setup@v2.2.2
+        with:
+          run_install: false
+          version: latest
+
+      - name: 📦 Install dependencies
+        run: pnpm i --frozen-lockfile
+
+      - name: 📦 Prepare package
+        run: pnpm dist 
+
+      # Publish to Github
+      - name: 🚀 Publish to Github Registry
+        uses: author/action-publish@stable
+        with:
+          scan: './dist'
+        env:
+          REGISTRY_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
