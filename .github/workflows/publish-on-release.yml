@@ -58,5 +58,5 @@ jobs:
         with:
           scan: './dist'
         env:
-          REGISTRY_TOKEN: '${{ secrets.NPM_TOKEN }}'
+          REGISTRY_TOKEN: '${{ secrets.NPM_AUTH_TOKEN }}'
       
