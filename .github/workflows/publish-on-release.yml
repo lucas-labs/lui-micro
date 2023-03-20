@@ -52,7 +52,9 @@ jobs:
 
       - name: 📦 Prepare package
         run: pnpm dist 
-        
+
+
+      # Publish to NPM  
       - name: 🚀 Publish to NPM Registry
         uses: author/action-publish@stable
         with:
@@ -60,6 +62,13 @@ jobs:
         env:
           REGISTRY_TOKEN: '${{ secrets.NPM_AUTH_TOKEN }}'
 
+
+      # Configure environment for Github Registry
+      - uses: actions/setup-node@v3
+        with:
+          registry-url: 'https://npm.pkg.github.com'
+
+      # Publish to Github
       - name: 🚀 Publish to Github Registry
         uses: author/action-publish@stable
         with:
