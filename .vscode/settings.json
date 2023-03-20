@@ -1,13 +1,13 @@
 {
     "files.exclude": {
         "node_modules": true,
-        ".github": true,
+        // ".github": true,
         ".vscode": true,
         ".git": true,
         ".gitignore": true,
         "pnpm-lock.yaml": true,
         "logo.svg": true,
-        "lui-mini.code-workspace": true,
+        "*.code-workspace": true,
         // "gulpfile.js": true,
         "coco.yml": true
     }
