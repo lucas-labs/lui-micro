@@ -1,0 +1,16 @@
+@use "sass:map";
+@use "sass:list";
+@use "./utils";
+
+// gets a theme-variable's css var value
+@function get($var, $default: null) {
+    $var-name: utils.escape-var-name(
+        utils.replace($var, '/', '_')
+    );
+
+    @if $default == null {
+        @return var(--v-#{$var-name});
+    } @else {
+        @return var(--v-#{$var-name}, $default);
+    }
+}
