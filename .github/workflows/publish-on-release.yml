@@ -53,10 +53,18 @@ jobs:
       - name: 📦 Prepare package
         run: pnpm dist 
         
-      - name: 🚀 Publish to Github NPM Registry
+      - name: 🚀 Publish to NPM Registry
         uses: author/action-publish@stable
         with:
           scan: './dist'
         env:
           REGISTRY_TOKEN: '${{ secrets.NPM_AUTH_TOKEN }}'
-      
+
+      - name: 🚀 Publish to Github Registry
+        uses: author/action-publish@stable
+        with:
+          scan: './dist'
+        env:
+          REGISTRY_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
