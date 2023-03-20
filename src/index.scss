@@ -1,6 +1,4 @@
-// @use 'core';
 @use 'core';
-// @use 'layouts';
 @use 'bp';
 @use 'sass:list';
 @use "sass:map";
@@ -9,9 +7,9 @@ $_default_options: (
     reboot: true,
     basic: true,
     theme: true,
-    color-utilities: true,
-    typography-utilities: true,
     merge-theme-with-prebuilt: false,
+    color-utilities: false,
+    typography-utilities: false,
     fg-var-name: 'text',
     bg-var-name: 'background'
 );
