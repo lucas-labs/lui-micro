@@ -1,4 +1,5 @@
 @use './../src' as lui;
+@use './../src/typo' as typo;
 
 $colors: (
     background: white,
@@ -24,7 +25,7 @@ $measures: (
 );
 
 $typographies: (
-    headings: (
+    heading: (
         // avoid creating css variables for root properties
         __include-root__: false,
         family: 'Outfit',
@@ -35,7 +36,7 @@ $typographies: (
         h2:      ( size: 2.813rem, line-height: 3.25rem,  letter-spacing: normal, weight: 700,),
         // ...
     ),
-    texts: (
+    text: (
         family: 'Inter',
         size: 16px,
         weight: 400,
@@ -63,6 +64,11 @@ $typographies: (
         common: true,
         theme: true,
         color-utilities: true,
-        utilities: false, 
+        utilities: false,
+        fg-var-name: 'text/secondary',
     )
 );
+
+.typo-module-test {
+    @include typo.typography('heading/h1');
+}

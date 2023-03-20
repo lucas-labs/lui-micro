@@ -1,0 +1,89 @@
+@use 'sass:map';
+@use 'sass:list';
+@use 'sass:string';
+@use 'sass:meta';
+@use 'core';
+@use './utils';
+
+$typographies: ();
+
+@mixin add($fonts: utils.empty-map()) {
+    @if $fonts != null and meta.type-of($fonts) == 'map' {
+        @each $font, $font-data in $fonts {
+            $family: map.get($font-data, 'family');
+            $font-style: map.get($font-data, 'font-style');
+            $font-weight: map.get($font-data, 'font-weight');
+            $font-display: map.get($font-data, 'font-display');
+            $src: map.get($font-data, 'src');
+            $format: map.get($font-data, 'format');
+            $unicode-range: map.get($font-data, 'unicode-range');
+
+            @if $font-style == null { $font-style: normal; }
+            @if $font-weight == null { $font-weight: 200; }
+
+            @if $family != null and $src != null {
+                @font-face {
+                    font-family: string.unquote($family);
+                    font-style: $font-style;
+                    font-weight: $font-weight;
+                    font-display: $font-display;
+                    src: url(string.unquote($src)) format($format);
+                    unicode-range: $unicode-range;
+                }
+            } @else {
+                @error "Font #{$font} is not valid";
+            }
+        }
+    } @else {
+        @warn "Invalid font map";
+    }
+}
+
+@mixin typography($name) {
+    @if $name == null or string.length($name) == 0 or type-of($name) != 'string' {
+        @warn "Invalid typography name '#{$name}'";
+    } @else {
+        $typographies: utils.inherit-properties(core.get-typographies(), null);
+        $real-typo-props: ();
+
+        // if $typographies is not null, is a map and is not empty try to get nested name
+        @if $typographies != null and meta.type-of($typographies) == 'map' and list.length($typographies) > 0 {
+            $real-typo-props: utils.filter-props(utils.get-nested($typographies, $name));
+        }
+        
+        // if we found the typology, then we can 
+        // use its props to create its css definitions
+        @if $real-typo-props != null and meta.type-of($real-typo-props) == 'map' {
+            $include-root: map.get($real-typo-props, '__include-root__');
+            $include: if($include-root == null, true, $include-root);
+
+            @if $include {
+                @each $prop, $value in $real-typo-props {
+                    $css-var-name: '--t-' + utils.replace($name, '/', '_') + '_' + $prop;
+                    #{utils.normalize-typo-prop-name($prop)}: var(#{$css-var-name});
+                }
+            } @else {
+                @warn "You are trying to generate properties for typology '#{$name}' but it's a root and it has '__include-root__' setted to false. As a result, no css properties will be generated";
+            }
+        } 
+        // in frameworks that uses shadow dom, like components in angular, 
+        // if typographies wasn't provided when importing typo.scss at the component level,
+        // then the get-typographies() function will return null (different scopes than 
+        // originally setted at init time), so we assume the family in css variables, and
+        // populate all probable css properties, following naming convention.
+        // This might generate some not needed css properties, but I can live with that
+        // and I can always provide the typography map when I @use this file
+        @else {
+            $name: utils.replace(utils.replace($name, '/', '_'), '.', '_');
+            $css-var-prefix: '--t-' + $name;
+            font-family: var(--t-#{$css-var-prefix}_family, inherit);
+            font-size: var(--t-#{$css-var-prefix}_font-size, inherit);
+            font-weight: var(--t-#{$css-var-prefix}_font-weight, inherit);
+            font-style: var(--t-#{$css-var-prefix}_font-style, inherit);
+            line-height: var(--t-#{$css-var-prefix}_line-height, inherit);
+            letter-spacing: var(--t-#{$css-var-prefix}_letter-spacing, inherit);
+            text-transform: var(--t-#{$css-var-prefix}_text-transform, inherit);
+            text-decoration: var(--t-#{$css-var-prefix}_text-decoration, inherit);
+        }        
+    }
+}

@@ -6,41 +6,41 @@
   --v-m_size_5x: 500px;
   --v-m_size_6x: 600px;
   --v-m_size_6\.5x: 650px;
-  --t-headings_display_family: Outfit;
-  --t-headings_display_weight: 600;
-  --t-headings_display_size: 5rem;
-  --t-headings_display_line-height: 5.5rem;
-  --t-headings_display_letter-spacing: -0.125rem;
-  --t-headings_h1_family: Outfit;
-  --t-headings_h1_weight: 600;
-  --t-headings_h1_size: 3.5rem;
-  --t-headings_h1_line-height: 4.375rem;
-  --t-headings_h1_letter-spacing: -0.063rem;
-  --t-headings_h2_family: Outfit;
-  --t-headings_h2_weight: 700;
-  --t-headings_h2_size: 2.813rem;
-  --t-headings_h2_line-height: 3.25rem;
-  --t-headings_h2_letter-spacing: normal;
-  --t-texts_family: Inter;
-  --t-texts_size: 16px;
-  --t-texts_weight: 400;
-  --t-texts_line-height: 1.5rem;
-  --t-texts_letter-spacing: 0.031rem;
-  --t-texts_bold_family: Inter;
-  --t-texts_bold_size: 16px;
-  --t-texts_bold_weight: 600;
-  --t-texts_bold_line-height: 1.5rem;
-  --t-texts_bold_letter-spacing: 0.031rem;
-  --t-texts_xl_family: Inter;
-  --t-texts_xl_size: 1.5rem;
-  --t-texts_xl_weight: 400;
-  --t-texts_xl_line-height: 1.875rem;
-  --t-texts_xl_letter-spacing: 0rem;
-  --t-texts_xl_bold_family: Inter;
-  --t-texts_xl_bold_size: 1.5rem;
-  --t-texts_xl_bold_weight: 600;
-  --t-texts_xl_bold_line-height: 1.875rem;
-  --t-texts_xl_bold_letter-spacing: 0rem;
+  --t-heading_display_family: Outfit;
+  --t-heading_display_weight: 600;
+  --t-heading_display_size: 5rem;
+  --t-heading_display_line-height: 5.5rem;
+  --t-heading_display_letter-spacing: -0.125rem;
+  --t-heading_h1_family: Outfit;
+  --t-heading_h1_weight: 600;
+  --t-heading_h1_size: 3.5rem;
+  --t-heading_h1_line-height: 4.375rem;
+  --t-heading_h1_letter-spacing: -0.063rem;
+  --t-heading_h2_family: Outfit;
+  --t-heading_h2_weight: 700;
+  --t-heading_h2_size: 2.813rem;
+  --t-heading_h2_line-height: 3.25rem;
+  --t-heading_h2_letter-spacing: normal;
+  --t-text_family: Inter;
+  --t-text_size: 16px;
+  --t-text_weight: 400;
+  --t-text_line-height: 1.5rem;
+  --t-text_letter-spacing: 0.031rem;
+  --t-text_bold_family: Inter;
+  --t-text_bold_size: 16px;
+  --t-text_bold_weight: 600;
+  --t-text_bold_line-height: 1.5rem;
+  --t-text_bold_letter-spacing: 0.031rem;
+  --t-text_xl_family: Inter;
+  --t-text_xl_size: 1.5rem;
+  --t-text_xl_weight: 400;
+  --t-text_xl_line-height: 1.875rem;
+  --t-text_xl_letter-spacing: 0rem;
+  --t-text_xl_bold_family: Inter;
+  --t-text_xl_bold_size: 1.5rem;
+  --t-text_xl_bold_weight: 600;
+  --t-text_xl_bold_line-height: 1.875rem;
+  --t-text_xl_bold_letter-spacing: 0rem;
   --c-background: white;
   --c-background-rgb: 255, 255, 255;
   --c-background-c: blue;
@@ -147,4 +147,176 @@ meter {
 
 :where(dialog:modal) {
   all: revert;
+}
+
+.bg-background {
+  background-color: var(--c-background);
+  color: var(--c-background-c);
+}
+
+.bg-background-contrast {
+  background-color: var(--c-background-c);
+  color: var(--c-background);
+}
+
+.color-background {
+  color: var(--c-background);
+}
+
+.color-background-contrast {
+  color: var(--c-background-c);
+}
+
+.bg-primary {
+  background-color: var(--c-primary);
+  color: var(--c-primary-c);
+}
+
+.bg-primary-contrast {
+  background-color: var(--c-primary-c);
+  color: var(--c-primary);
+}
+
+.color-primary {
+  color: var(--c-primary);
+}
+
+.color-primary-contrast {
+  color: var(--c-primary-c);
+}
+
+.bg-secondary {
+  background-color: var(--c-secondary);
+  color: var(--c-secondary-c);
+}
+
+.bg-secondary-contrast {
+  background-color: var(--c-secondary-c);
+  color: var(--c-secondary);
+}
+
+.color-secondary {
+  color: var(--c-secondary);
+}
+
+.color-secondary-contrast {
+  color: var(--c-secondary-c);
+}
+
+.bg-primary-20\% {
+  background-color: var(--c-primary-20\%);
+  color: var(--c-primary-20\%-c);
+}
+
+.bg-primary-20\%-contrast {
+  background-color: var(--c-primary-20\%-c);
+  color: var(--c-primary-20\%);
+}
+
+.color-primary-20\% {
+  color: var(--c-primary-20\%);
+}
+
+.color-primary-20\%-contrast {
+  color: var(--c-primary-20\%-c);
+}
+
+.bg-text-primary {
+  background-color: var(--c-text_primary);
+  color: var(--c-text_primary-c);
+}
+
+.bg-text-primary-contrast {
+  background-color: var(--c-text_primary-c);
+  color: var(--c-text_primary);
+}
+
+.color-text-primary {
+  color: var(--c-text_primary);
+}
+
+.color-text-primary-contrast {
+  color: var(--c-text_primary-c);
+}
+
+.bg-text-secondary {
+  background-color: var(--c-text_secondary);
+  color: var(--c-text_secondary-c);
+}
+
+.bg-text-secondary-contrast {
+  background-color: var(--c-text_secondary-c);
+  color: var(--c-text_secondary);
+}
+
+.color-text-secondary {
+  color: var(--c-text_secondary);
+}
+
+.color-text-secondary-contrast {
+  color: var(--c-text_secondary-c);
+}
+
+.typo-heading-display {
+  font-family: var(--t-heading_display_family);
+  font-weight: var(--t-heading_display_weight);
+  font-size: var(--t-heading_display_size);
+  line-height: var(--t-heading_display_line-height);
+  letter-spacing: var(--t-heading_display_letter-spacing);
+}
+
+.typo-heading-h1 {
+  font-family: var(--t-heading_h1_family);
+  font-weight: var(--t-heading_h1_weight);
+  font-size: var(--t-heading_h1_size);
+  line-height: var(--t-heading_h1_line-height);
+  letter-spacing: var(--t-heading_h1_letter-spacing);
+}
+
+.typo-heading-h2 {
+  font-family: var(--t-heading_h2_family);
+  font-weight: var(--t-heading_h2_weight);
+  font-size: var(--t-heading_h2_size);
+  line-height: var(--t-heading_h2_line-height);
+  letter-spacing: var(--t-heading_h2_letter-spacing);
+}
+
+.typo-text-bold {
+  font-family: var(--t-text_bold_family);
+  font-size: var(--t-text_bold_size);
+  font-weight: var(--t-text_bold_weight);
+  line-height: var(--t-text_bold_line-height);
+  letter-spacing: var(--t-text_bold_letter-spacing);
+}
+
+.typo-text-xl-bold {
+  font-family: var(--t-text_xl_bold_family);
+  font-size: var(--t-text_xl_bold_size);
+  font-weight: var(--t-text_xl_bold_weight);
+  line-height: var(--t-text_xl_bold_line-height);
+  letter-spacing: var(--t-text_xl_bold_letter-spacing);
+}
+
+.typo-text-xl {
+  font-family: var(--t-text_xl_family);
+  font-size: var(--t-text_xl_size);
+  font-weight: var(--t-text_xl_weight);
+  line-height: var(--t-text_xl_line-height);
+  letter-spacing: var(--t-text_xl_letter-spacing);
+}
+
+.typo-text {
+  font-family: var(--t-text_family);
+  font-size: var(--t-text_size);
+  font-weight: var(--t-text_weight);
+  line-height: var(--t-text_line-height);
+  letter-spacing: var(--t-text_letter-spacing);
+}
+
+.typo-module-test {
+  font-family: var(--t-heading_h1_family);
+  font-weight: var(--t-heading_h1_weight);
+  font-size: var(--t-heading_h1_size);
+  line-height: var(--t-heading_h1_line-height);
+  letter-spacing: var(--t-heading_h1_letter-spacing);
 }
