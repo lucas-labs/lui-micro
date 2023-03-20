@@ -30,12 +30,9 @@
 // Creates css variables for typographies
 @mixin -typographies($typographies, $base: '', $include: true) {
     $separator: if($base == '', '', '_');
-    
-    // process typography inheritance
-    $typos-with-inheritance: utils.inherit-properties($typographies, null);
 
-    // creates css variables for each typography in $typos-with-inheritance
-    @each $typo, $value in $typos-with-inheritance {
+    // creates css variables for each typography in $typographies
+    @each $typo, $value in $typographies {
         @if type-of($value) == 'map' {
             // get __include-root__ property
             $include-root: map.get($value, '__include-root__');

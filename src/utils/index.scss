@@ -7,6 +7,10 @@
 // returns only props from a map (not inner maps)
 @function filter-props($map) {
     $result: ();
+
+    @if $map == null or meta.type-of($map) != 'map' or list.length($map) == 0 {
+        @return null;
+    }
     
     @each $key, $value in $map {
         @if type-of($value) != map {
@@ -108,7 +112,17 @@
 }
 
 @function ends-with($string, $find) {
-    @if (str-index($string, $find)==(str-length($string) - str-length($find) + 1)) {
+    @if (str-index($string, $find) == (str-length($string) - str-length($find) + 1)) {
+        @return true;
+    }
+
+    @else {
+        @return false;
+    }
+}
+
+@function starts-with($string, $find) {
+    @if (str-index($string, $find) == 1) {
         @return true;
     }
 
@@ -284,4 +298,69 @@ $srgb-lut: 0, 0.0003035269835488375, 0.000607053967097675, 0.0009105809506465125
 
     // return a map with the foreground and background colors
     @return (foreground: $foreground, background: $background);
+}
+
+/// Sets the vars and colors lists
+/// it is used for example, to create the color-utilities, etc
+@function get-keys($map, $prefix: "") {
+    $flat-map: ();
+
+    @each $key, $value in $map {
+        @if type-of($value) == "map" {
+            $flat-map: list.join(
+                $flat-map, 
+                get-keys($value, "#{$prefix}#{$key}_")
+            );
+        } @else {
+            $flat-map: list.append($flat-map, string.quote($prefix+$key+""));
+        }
+    }
+
+    @return $flat-map;
+}
+
+/// Gets the color as a css variable
+@function get-color-css-var($color, $variant: 'none', $default: null) {
+    $color-name: escape-var-name(replace($color, '/', '_'));
+
+    @if $variant == 'contrast'  {
+        $color-name: $color-name + '-c';
+    } @else if $variant == 'rgb' {
+        $color-name: $color-name + '-rgb';
+    } @else if $variant == 'contrast-rgb' {
+        $color-name: $color-name + '-c-rgb';
+    }
+
+    @if $default == null {
+        @return var(--c-#{$color-name});
+    } @else {
+        @return var(--c-#{$color-name}, $default);
+    }
+}
+
+@mixin map-to-css-properties($properties) {
+    @if type-of($properties) == map and list.length($properties) > 0 {
+        @each $property, $value in $properties {
+            // ignore properties that starts with __
+            @if not starts-with($property, '__') {
+                #{$property}: $value;
+            }
+        }    
+    }    
+}
+
+// maps common property names to valid 
+// css property names
+@function normalize-typo-prop-name($name) {
+    @if $name == 'size' {
+        @return 'font-size';
+    } @else if $name == 'weight' {
+        @return 'font-weight';
+    } @else if $name == 'style' {
+        @return 'font-style';
+    } @else if $name == 'family' {
+        @return 'font-family';
+    } @else {
+        @return $name;
+    }
 }

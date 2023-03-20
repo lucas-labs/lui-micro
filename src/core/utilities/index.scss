@@ -1,0 +1,65 @@
+@use './../../utils';
+@use 'sass:list';
+@use 'sass:map';
+
+$_background-class: 'bg';
+$_color-class: 'color';
+
+@mixin create-color-utilities($colors) {
+    @each $color in $colors {
+        $color-class-name: utils.replace($color, '_', '-');
+
+        // e.g .bg-primary
+        //     .color-primary
+        //     .bg-list-color1
+        //     .bg-list-more-color2
+
+        // .bg-color
+        .#{$_background-class}-#{utils.escape-var-name($color-class-name)} {
+            background-color: utils.get-color-css-var($color);
+            color: utils.get-color-css-var($color, contrast);
+        }
+
+        // .bg-color-contrast
+        .#{$_background-class}-#{utils.escape-var-name($color-class-name)}-contrast {
+            background-color: utils.get-color-css-var($color, contrast);
+            color: utils.get-color-css-var($color);
+        }
+
+        // .color-color
+        .#{$_color-class}-#{utils.escape-var-name($color-class-name)} {
+            color: utils.get-color-css-var($color);
+        }
+
+        // .color-color-contrast
+        .#{$_color-class}-#{utils.escape-var-name($color-class-name)}-contrast {
+            color: utils.get-color-css-var($color, contrast);
+        }        
+    }
+}
+
+
+// creates typography utility classes
+@mixin create-typography-utilities($typographies, $base: '') {
+    $maps: utils.filter-maps($typographies);
+    $props: utils.filter-props($typographies);
+
+    // if there are inner maps, create a new class for each map
+    @each $name, $value in $maps {
+        @include create-typography-utilities($value, $base+"-"+$name);
+    }
+
+    @if $base != '' and list.length($props) > 0 {
+        // ignore the whole typo if __include-root__ is set to false
+        @if not map.has-key($props, '__include-root__') {
+
+            // typography utility class
+            .typo#{$base} {
+                @each $prop, $value in $props {
+                    $css-var-name: '--t-' + str-slice(utils.replace($base, '-', '_'), 2) + '_' + $prop;
+                    #{utils.normalize-typo-prop-name($prop)}: var(#{$css-var-name});
+                }
+            }
+        }        
+    }   
+}

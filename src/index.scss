@@ -7,16 +7,13 @@
 
 $_default_options: (
     reboot: true,
-    common: true,
+    basic: true,
     theme: true,
-    utilities: true,
     color-utilities: true,
+    typography-utilities: true,
     merge-theme-with-prebuilt: false,
-    fg-var-name: 'text/secondary'
-    // layouts: (
-    //     grid: false,
-    //     container: false,
-    // )
+    fg-var-name: 'text',
+    bg-var-name: 'background'
 );
 
 @mixin init($breakpoints: (), $theme: (), $options: ()) {
@@ -49,16 +46,10 @@ $_default_options: (
     // init core (reboot, common, utilities, color-utilities)
     @include core.create-default-styles(
         map.get($options, 'reboot'),
-        map.get($options, 'common'),
-        map.get($options, 'utilities'),
+        map.get($options, 'basic'),
         map.get($options, 'color-utilities'),
+        map.get($options, 'typography-utilities'),
     );
-
-    // // setting layout
-    // @include layouts.init(
-    //     map.get($options, 'layouts', 'grid'),
-    //     map.get($options, 'layouts', 'container')
-    // );
 }
 
 @mixin log-init($options) {
