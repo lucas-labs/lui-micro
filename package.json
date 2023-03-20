@@ -1,7 +1,25 @@
 {
     "name": "@lucas-labs/lui-micro",
     "version": "3.1.1",
-    "description": "LUI micro scss",
+    "description": "🎨 lui-micro › A lightweight scss library for building themed UIs 🤏",
+    "author": "Lucas Colombo <lucas@lucaslabs.tech> (https://lucaslabs.tech/)",
+    "license": "MIT",
+    "repository": {
+		"type": "git",
+		"url": "https://github.com/lucas-labs/lui-micro.git"
+	},
+	"bugs": {
+		"url": "https://github.com/lucas-labs/lui-micro/issues",
+		"email": "lucas@lucaslabs.tech"
+	},
+	"keywords": [
+		"scss",
+		"scss library",
+		"lightweight",
+		"ui",
+		"scss theme",
+		"scss framework"
+	],
     "scripts": {
         "dist": "pnpm gulp dist",
         "start": "pnpm gulp",
@@ -14,8 +32,7 @@
         "release:prepatch": "pnpm gulp release:prepatch",
         "release:prerelease": "pnpm gulp release:prerelease"
     },
-    "author": "",
-    "license": "MIT",
+    
     "devDependencies": {
         "browser-sync": "^2.27.9",
         "cssnano": "^5.1.7",

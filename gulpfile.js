@@ -58,7 +58,7 @@ function clean() {
 }
 
 function createDist() {
-    return src(['src/**/*.scss', './package.json'])
+    return src(['src/**/*.scss', './package.json', './README.md'])
         .pipe(dest('dist'));
 }
 
