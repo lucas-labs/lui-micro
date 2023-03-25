@@ -36,7 +36,7 @@
         $text-small-name: 'text/sm';
     }
 
-    $base-colors: utils.get-bg-and-fg-colors($colors, $options);
+    $base-colors: utils.get-bg-and-fg-colors($colors, $options, true);
 
     $text-color: map.get($base-colors, 'foreground');
     $bg-color: map.get($base-colors, 'background');

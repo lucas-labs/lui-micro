@@ -34,6 +34,7 @@ $_default_options: (
                 $as-default: true,
                 $fg-var-name: map.get($options, 'foreground-var-name'),
                 $bg-var-name: map.get($options, 'background-var-name'),
+                $merge-with-prebuilt: map.get($options, 'merge-theme-with-prebuilt'),
             ); 
         }
     }

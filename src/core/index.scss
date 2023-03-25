@@ -24,7 +24,7 @@ $typos-with-inheritance: ();
 }
 
 @mixin create-theme(
-    $theme: $_default_theme, 
+    $theme: (), 
     $as-default: false, 
     $merge-with-prebuilt: true, 
     $fg-var-name: null, 

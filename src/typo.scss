@@ -66,14 +66,14 @@ $typographies: ();
         @else {
             $name: utils.replace(utils.replace($name, '/', '_'), '.', '_');
             $css-var-prefix: '--t-' + $name;
-            font-family: var(--t-#{$css-var-prefix}_family, inherit);
-            font-size: var(--t-#{$css-var-prefix}_font-size, inherit);
-            font-weight: var(--t-#{$css-var-prefix}_font-weight, inherit);
-            font-style: var(--t-#{$css-var-prefix}_font-style, inherit);
-            line-height: var(--t-#{$css-var-prefix}_line-height, inherit);
-            letter-spacing: var(--t-#{$css-var-prefix}_letter-spacing, inherit);
-            text-transform: var(--t-#{$css-var-prefix}_text-transform, inherit);
-            text-decoration: var(--t-#{$css-var-prefix}_text-decoration, inherit);
+            font-family: var(#{$css-var-prefix}_family, inherit);
+            font-size: var(#{$css-var-prefix}_font-size, inherit);
+            font-weight: var(#{$css-var-prefix}_font-weight, inherit);
+            font-style: var(#{$css-var-prefix}_font-style, inherit);
+            line-height: var(#{$css-var-prefix}_line-height, inherit);
+            letter-spacing: var(#{$css-var-prefix}_letter-spacing, inherit);
+            text-transform: var(#{$css-var-prefix}_text-transform, inherit);
+            text-decoration: var(#{$css-var-prefix}_text-decoration, inherit);
         }        
     }
 }

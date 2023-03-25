@@ -19,7 +19,7 @@
     @each $var, $value in $variables {
         @if type-of($value) == 'map' {
             @include -vars($value, '#{$base}#{$separator}#{$var}');
-        } @else {
+        } @else if $var != null {
             --v-#{$base}#{$separator}#{utils.escape-var-name($var)}: #{string.unquote(
                     $value + ''
                 )};
@@ -41,7 +41,7 @@
             // if its a map (child typography), go recursively
             @include -typographies($value, '#{$base}#{$separator}#{$typo}', $include);
         } @else {
-            @if $include {
+            @if $include and $typo != null {
                 // skip __include-root__ property
                 @if $typo != '__include-root__' {
                     // if its a property, create a css variable
@@ -70,7 +70,7 @@
             // if its a map, go recursively
             $separator: if($base == "", "", "_");
             @include -colors($colors: $value, $complete-color-list: $complete-color-list, $base: "#{$base}#{$separator}#{$color}", $base-colors: $base-colors);
-        } @else {
+        } @else if $color != null {
             $separator: if($base == "", "", "_");
             --c-#{$base}#{$separator}#{utils.escape-var-name($color)}: #{$value};
 

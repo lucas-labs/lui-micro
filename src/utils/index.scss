@@ -37,6 +37,10 @@
 // returns a map with all props from a map, where childs
 // inherit all props from its parent, recursively
 @function inherit-properties($map, $parent: null) {
+    @if $map == null or meta.type-of($map) != 'map' or list.length($map) == 0 {
+        @return null;
+    }
+
     $result: ();
 
     // separate maps and props
@@ -267,11 +271,13 @@ $srgb-lut: 0, 0.0003035269835488375, 0.000607053967097675, 0.0009105809506465125
 }
 
 // get background and foreground colors from a map depending on the options
-@function get-bg-and-fg-colors($colors: empty-map(), $options: empty-map()) {
+@function get-bg-and-fg-colors($colors: empty-map(), $options: empty-map(), $silent: false) {
     $foreground-var-name: map.get($options, 'fg-var-name') or 'text';
     $background-var-name: map.get($options, 'bg-var-name') or 'background';
     
-    @debug "Trying to get foreground from '#{$foreground-var-name}' and background from '#{$background-var-name}'";
+    @if not $silent {
+        @debug "Trying to get foreground from '#{$foreground-var-name}' and background from '#{$background-var-name}'";
+    }
 
     // get fg and bg allowing nested notation (example, text/principal)
     $foreground: get-nested($colors, $foreground-var-name);
@@ -279,19 +285,25 @@ $srgb-lut: 0, 0.0003035269835488375, 0.000607053967097675, 0.0009105809506465125
 
     // if foreground is not a valid color or is not defined
     @if not $foreground or type-of($foreground) != color {
-        @debug "⚠️  Could not find foreground color ('#{$foreground-var-name}')";
+        @if not $silent {
+            @debug "⚠️  Could not find foreground color ('#{$foreground-var-name}')";
+        }
     } @else {
-        @debug "🎨 Foreground color: #{$foreground}";
+        @if not $silent {
+            @debug "🎨 Foreground color: #{$foreground}";
+        }
     }
 
-    @if not $background or type-of($background) != color {
-        @debug "⚠️  Could not find background color ('#{$background-var-name}')";
-    } @else {
-        @debug "🎨 Background color: #{$background}";
-    }
+    @if not $silent {
+        @if not $background or type-of($background) != color {
+            @debug "⚠️  Could not find background color ('#{$background-var-name}')";
+        } @else {
+            @debug "🎨 Background color: #{$background}";
+        }
+    }    
 
     // if any of $background or $foreground are not defined or are not of type color, show a debug message indicating that contrast css variables wont be created
-    @if not $foreground or not $background or type-of($foreground) != color or type-of($background) != color {
+    @if (not $foreground or not $background or type-of($foreground) != color or type-of($background) != color) and not $silent {
         @debug "";
         @debug "🔵 Could not find foreground and/or background color. Contrast css variables for colors won't be created";
     }
