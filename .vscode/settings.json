@@ -5,7 +5,7 @@
         ".vscode": true,
         ".git": true,
         ".gitignore": true,
-        "pnpm-lock.yaml": true,
+        // "pnpm-lock.yaml": true,
         "logo.svg": true,
         "*.code-workspace": true,
         // "gulpfile.js": true,

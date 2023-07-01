@@ -24,7 +24,7 @@ jobs:
       - name: 🟢 Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 16.14.0
+          node-version: 20.1.0
           registry-url: https://registry.npmjs.org/
 
       # Install Pnpm
@@ -32,7 +32,7 @@ jobs:
         uses: pnpm/action-setup@v2.2.2
         with:
           run_install: false
-          version: latest
+          version: 8.6.5
 
       - name: 📒 Get pnpm store directory
         id: pnpm-cache
