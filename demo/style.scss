@@ -1,5 +1,7 @@
 @use './../src' as lui;
 @use './../src/typo' as typo;
+@use './../src/color' as color;
+@use './../src/var' as var;
 
 $colors: (
     background: white,
@@ -75,3 +77,20 @@ $typographies: (
 .typo-module-test {
     @include typo.typography('heading/h1');
 }
+
+.color-module-test {
+    background-color: color.get('primary', 'rgb', #fff);
+    background-color: color.get('primary', 'contrast');
+    background-color: color.get('primary', 'contrast-rgb');
+    background-color: color.get('primary');
+    background-color: color.get('text.primary');
+    background-color: color.get('primary-20%');
+}
+
+.var-module-test {
+    width: var.get('m/1x');
+    height: var.get('m/6.5x');
+
+    font-size: var.get('m.4x');
+}
+

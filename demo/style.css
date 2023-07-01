@@ -319,3 +319,18 @@ html body h2 {
   line-height: var(--t-heading_h1_line-height);
   letter-spacing: var(--t-heading_h1_letter-spacing);
 }
+
+.color-module-test {
+  background-color: var(--c-primary-rgb, #fff);
+  background-color: var(--c-primary-c);
+  background-color: var(--c-primary-c-rgb);
+  background-color: var(--c-primary);
+  background-color: var(--c-text\.primary);
+  background-color: var(--c-primary-20\%);
+}
+
+.var-module-test {
+  width: var(--v-m_1x);
+  height: var(--v-m_6\.5x);
+  font-size: var(--v-m\.4x);
+}

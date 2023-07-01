@@ -186,10 +186,6 @@ The library includes some mixins that can be used to access the theme variables 
     //     )
     // )
     border-color: color.get('my/nested/color'); // border-color: var(--c-my_nested_color);
-    // dots instead of slashes can be used too
-    border-color: color.get('my.nested.color'); // border-color: var(--c-my_nested_color);
-
-
 
     // get a theme variable
     border-radius: var.get('font-family'); // border-radius: var(--v-font-family);

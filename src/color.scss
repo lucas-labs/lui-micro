@@ -6,7 +6,7 @@
 /// @param $variant - Variant, one of 'none', 'contrast', 'rgb', 'contrast-rgb
 /// @param $color - Color name
 @function get($color, $variant: 'none', $default: null) {
-    @return utils.get-css-var($color, $variant, $default);
+    @return utils.get-color-css-var($color, $variant, $default);
 }
 
 @mixin gradient($gradient, $text: false) {
